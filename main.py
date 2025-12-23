@@ -37,7 +37,10 @@ def main(message):
 						bot.edit_message_text(chat_id=message.chat.id, message_id=ko, text='STOP ✅\nBOT BY ➜ @Rusisvirus')
 						os.remove('stop.stop')
 						return
-				try: data = requests.get('https://bins.antipublic.cc/bins/'+cc[:6]).json()
+				try: data = requests.get(
+    'https://bins.antipublic.cc/bins/' + cc[:6],
+    timeout=20
+).json()
 				except: pass
 				try:
 					brand = data['brand']
@@ -61,6 +64,7 @@ def main(message):
 				start_time = time.time()
 				try:
 					last = str(Tele(cc))
+time.sleep(1)
 				except Exception as e:
 					print(e)
 					last = 'missing payment form'
@@ -139,4 +143,8 @@ by ➜ @Rusisvirus ''', reply_markup=mes)
 def menu_callback(call):
 	with open("stop.stop", "w") as file:
 		pass
-bot.polling()
+bot.infinity_polling(
+    timeout=60,
+    long_polling_timeout=60,
+    skip_pending=True
+)
